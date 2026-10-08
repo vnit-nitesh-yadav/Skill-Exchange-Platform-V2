@@ -1,0 +1,12 @@
+# secrets: never commit these (the old backend/.env was committed with live DB credentials)
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+node_modules/
+build/
+logs/
+config/db_config.json

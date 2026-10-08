@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "core-js-pure": "^3.50.0",
+    "nodemon": "^3.1.11"
+  }
+}
