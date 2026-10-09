@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import API_URL from '../../api';
 import { setSession } from '../../lib/session';
 
+const EMAIL_RE = /^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,}$/i;
+
 const Register = (props) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -19,10 +21,17 @@ const Register = (props) => {
     setError("");
     setSuccess("");
 
+    const normalizedEmail = email.trim();
+    if (!EMAIL_RE.test(normalizedEmail)) {
+      setError("Please enter a valid email address");
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await axios.post(`${API_URL}/api/auth/register`, {
         username,
-        email,
+        email: normalizedEmail,
         password,
       });
 

@@ -21,6 +21,8 @@ const api = axios.create({
   withCredentials: USE_COOKIES, // toggle for cookie auth
 });
 
+const EMAIL_RE = /^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,}$/i;
+
 const Login = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -45,17 +47,23 @@ const Login = ({ setIsLoggedIn }) => {
     setFieldErrors({});
 
     // basic client-side validation
-    if (!email || !password) {
+    const normalizedEmail = email.trim();
+    if (!normalizedEmail || !password) {
       setFieldErrors({
-        email: !email ? "Email is required" : null,
+        email: !normalizedEmail ? "Email is required" : null,
         password: !password ? "Password is required" : null,
       });
       setLoading(false);
       return;
     }
+    if (!EMAIL_RE.test(normalizedEmail)) {
+      setFieldErrors({ email: "Please enter a valid email address" });
+      setLoading(false);
+      return;
+    }
 
     try {
-      const resp = await api.post("/api/auth/login", { email, password });
+      const resp = await api.post("/api/auth/login", { email: normalizedEmail, password });
 
       // token is stored raw; the axios interceptor adds the "Bearer " prefix
       setSession({ token: resp?.data?.token, id: resp?.data?.id });

@@ -6,7 +6,7 @@ const presence = require('../services/presence');
 const { escapeRegex } = require('../utils/skills');
 
 const router = express.Router();
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_RE = /^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,}$/i;
 
 // Returns the raw JWT. The client adds the "Bearer " prefix (the old API returned it pre-prefixed,
 // which made every client send "Bearer Bearer <token>").
@@ -37,9 +37,10 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const email = String(req.body.email || '').trim();
+    const email = String(req.body.email || '').trim().toLowerCase();
     const password = String(req.body.password || '');
     if (!email || !password) return res.status(400).json({ error: 'Email and password are required' });
+    if (!EMAIL_RE.test(email)) return res.status(400).json({ error: 'Please enter a valid email address' });
 
     // case-insensitive so accounts created before emails were lower-cased still work
     const user = await User.findOne({ email: new RegExp(`^${escapeRegex(email)}$`, 'i') });
