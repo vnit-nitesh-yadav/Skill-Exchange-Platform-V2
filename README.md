@@ -7,7 +7,7 @@ An interactive full-stack web application that enables users to **connect, teach
 ##  Live Demo
 
 Explore the deployed app :  
-➡️ [skill-exchangeplatform.vercel.app]((https://skill-exchange-platform-v2-five.vercel.app/))
+➡️ [skill-exchange-platform-v2-five.vercel.app](https://skill-exchange-platform-v2-five.vercel.app/)
 
 ---
 
