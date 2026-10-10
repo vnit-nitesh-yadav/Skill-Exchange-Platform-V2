@@ -3,7 +3,7 @@
 const API_URL =
   (process.env.REACT_APP_API_URL ||
     (process.env.NODE_ENV === 'production'
-      ? 'https://skill-exchange-platform-oodv.onrender.com'
+      ? 'https://skill-exchange-platform-v2.onrender.com'
       : 'http://localhost:5000')).replace(/\/$/, '');
 
 export default API_URL;
